@@ -1,6 +1,9 @@
-<h1>
-  {{title}}
-</h1>
-<div> {{ (af.auth | async)?.uid }} </div>
-  <button (click)="login()">Login</button>
+<div *ngIf="af.auth | async">
+  You are logged in
+  <p>{{username}}</p>
   <button (click)="logout()">Logout</button>
+</div>
+<div *ngIf="!(af.auth | async)">
+  Please log in
+<button (click)="login()">Login</button>
+</div>
