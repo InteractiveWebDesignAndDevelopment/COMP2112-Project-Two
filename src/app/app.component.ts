@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFire } from 'angularfire2';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,15 +11,16 @@ import { AngularFire } from 'angularfire2';
 export class AppComponent {
   title = 'Please Login!';
   username : string;
-  auth ;
-  constructor(public af: AngularFire) {
+  constructor(public af: AngularFire, private router: Router) {
     this.af.auth.subscribe(auth => {
-      this.username = auth.auth.displayName;
+      if (auth !== null) {
+        this.username = auth.auth.displayName;
+        this.router.navigate(['/chatroom', this.username]);
+      }
     });
   }
   login() {
-    this.af.auth.login().then((event) => {
-    });
+    this.af.auth.login();
   }
   logout() {
     this.af.auth.logout();
